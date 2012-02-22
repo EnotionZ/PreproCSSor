@@ -60,14 +60,14 @@ var app = new (Spine.Controller.sub({
 	},
 
 	colorChange: function(hex) {
-		var self = this, value, _text, _line = "";
+		var self = this, value, _line = "";
 		if(!self.activeInfo.$el) return false;
 
+		var blank = new RegExp(String.fromCharCode(160), "g");
 		self.activeInfo.$el.html(hex);
 
 		// sets new value by replacing line
-		_text = self.activeInfo.$el.parents(".ace_line").text();
-		for(var i=0; i<_text.length; i++) { _line += _text.charCodeAt(i) === 160 ? " " : _text[i]; }
+		_line = self.activeInfo.$el.parents(".ace_line").text().replace(blank, " ");
 		value = self.cssEditor.getSession().getValue().split("\n");
 		value[self.activeInfo.row] = _line;
 		value = value.join("\n");
